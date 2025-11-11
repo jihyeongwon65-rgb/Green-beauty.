@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenBeauty – 친환경 메이크업 플랫폼</title>
+    <style>
+        /* CSS: 기본 스타일 및 레이아웃 (이전과 동일) */
+        :root {
+            --color-primary: #4CAF50; /* 그린 */
+            --color-secondary: #8BC34A; /* 연한 그린 */
+            --color-background: #f4f4f4;
+            --color-text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        header {
+            background-color: white;
+            color: var(--color-primary);
+            padding: 1rem 0;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--color-primary);
+        }
+
+        /* ① 메인화면 스타일 */
+        #hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('leaf-globe-background.jpg') no-repeat center center/cover;
+            /* [attachment_0](attachment) */
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        #hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+        }
+
+        #hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: var(--color-secondary);
+        }
+
+        /* 섹션 공통 스타일 */
+        section {
+            padding: 4rem 0;
+        }
+
+        section h3 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--color-primary);
+            font-size: 2rem;
+        }
+
+        /* ② AI 추천 섹션 스타일 */
+        #ai-recommendation {
+            background-color: var(--color-background);
+        }
+
+        .recommendation-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-list {
+            margin-top: 2rem;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-card {
+            border: 1px solid var(--color-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            width: 250px;
+            text-align: center;
+            flex: 1 1 30%; 
+            max-width: 300px;
+        }
+
+        .environment-score {
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-top: 10px;
+        }
+
+        /* ③ 환경 지식 섹션 스타일 (이전과 동일) */
+        #eco-knowledge {
+            background-color: white;
+        }
+
+        .knowledge-cards {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 280px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h4 {
+            color: var(--color-primary);
+            margin-top: 0;
+        }
+
+        /* ④ 나의 그린 챌린지 페이지 스타일 (이전과 동일) */
+        #green-challenge {
+            background-color: #f1f8e9;
+            text-align: center;
+        }
+
+        #challenge-goal {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding: 10px;
+            border: 1px solid var(--color-secondary);
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        #challenge-message {
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>GreenBeauty</h1>
+            <p>아름다움과 지구를 함께 지키는 친환경 메이크업 플랫폼</p>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <h2>당신의 아름다움이 지구를 지키는 시작입니다.</h2>
+            <p>AI가 당신의 피부와 환경 가치관에 맞는 맞춤형 친환경 제품을 추천해 드려요.</p>
+            <button class="cta-button" onclick="scrollToSection('ai-recommendation')">AI 맞춤 추천 시작하기</button>
+        </div>
+    </section>
+
+    <section id="ai-recommendation" class="container">
+        <h3>🌱 AI 맞춤형 친환경 제품 추천</h3>
+        <div class="recommendation-form">
+            <label for="skin-tone">피부 톤:</label>
+            <input type="text" id="skin-tone" placeholder="예: 웜톤/쿨톤">
+
+            <label for="skin-type">피부 타입:</label>
+            <select id="skin-type">
+                <option value="dry">건성</option>
+                <option value="oily">지성</option>
+                <option value="combo">복합성</option>
+                <option value="sensitive">민감성</option>
+            </select>
+
+            <label for="climate">지역/기후:</label>
+            <select id="climate">
+                <option value="all">상관 없음</option>
+                <option value="dry">건조함</option>
+                <option value="humid">습함</option>
+                <option value="hot">더움</option>
+                <option value="cold">추움</option>
+            </select>
+            <label for="color">선호 색상:</label>
+            <input type="text" id="color" placeholder="예: 핑크 계열, 뉴트럴">
+
+            <button class="cta-button" style="grid-column: 1 / 3;" onclick="getRecommendation()">AI 추천받기</button>
+        </div>
+
+        <div id="recommendation-result" class="product-list" style="display: none;">
+            </div>
+    </section>
+
+    <section id="eco-knowledge" class="container">
+        <h3>🌍 환경을 위한 작은 실천</h3>
+        <p style="text-align: center; margin-bottom: 30px;">화장품 쓰레기는 지구를 아프게 합니다. 일상에서 환경을 지키는 방법을 알아볼까요?</p>
+        <div class="knowledge-cards">
+            <div class="card">
+                <h4>클렌징 시 환경을 지키는 방법</h4>
+                <ul>
+                    <li>물 절약: 세안 시 물 틀어놓지 않기</li>
+                    <li>친환경 비누: 미세 플라스틱 없는 고체 비누 사용하기</li>
+                    <li>재활용: 사용한 용기는 깨끗이 씻어 분리수거</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>리필 용기 사용 팁</h4>
+                <ul>
+                    <li>소독 필수: 리필 전 용기를 끓는 물로 소독</li>
+                    <li>브랜드 확인: 리필 가능한 브랜드 제품 선택</li>
+                    <li>포인트 적립: 리필 시 제공되는 혜택 놓치지 않기</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="green-challenge">
+        <div class="container">
+            <h3>✨ 나의 그린 챌린지</h3>
+            <p id="challenge-goal">목표: **일회용 클렌징 티슈 사용 줄이기**</p>
+            <button class="cta-button" onclick="completeChallenge()">챌린지 완료! (오늘 실천)</button>
+            <p id="challenge-message"></p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: 1rem 0; color: #777;">
+            &copy; 2025 GreenBeauty. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript: 인터랙션 및 기능 구현
+        
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 이전 getClimateType 함수는 이제 필요 없습니다.
+
+        function getRecommendation() {
+            // ① 사용자 입력 값 가져오기
+            const selectedSkinType = document.getElementById('skin-type').value; // 'dry', 'oily', 'combo', 'sensitive'
+            // 변경: 기후 드롭다운 값 직접 가져오기
+            const selectedClimate = document.getElementById('climate').value; // 'dry', 'humid', 'hot', 'cold', 'all'
+            
+            // ② 추천 리스트 생성 및 표시 영역 초기화
+            const resultDiv = document.getElementById('recommendation-result');
+            resultDiv.innerHTML = ''; 
+
+            // 👇👇👇 제품 데이터 (이전과 동일) 👇👇👇
+            const allProducts = [
+                // skin_type_match와 climate_match 값은 이전 코드와 동일
+                { name: '천연 세럼', score: 9.5, description: '대나무 추출물 기반, 재활용 유리 용기', skin_type_match: ['all', 'sensitive'], climate_match: ['all', 'humid'] },
+                { name: '친환경 립밤', score: 8.8, description: '무독성 미네랄 색소, 생분해성 종이 포장', skin_type_match: ['all'], climate_match: ['all'] },
+                { name: '비건 파운데이션', score: 9.2, description: '동물 실험 반대, 사탕수수 플라스틱 용기', skin_type_match: ['oily', 'combo'], climate_match: ['all', 'hot'] },
+                { name: '오트밀 젠틀 클렌징 바', score: 9.8, description: '미세 플라스틱 X, 종이 포장 제로 웨이스트', skin_type_match: ['dry', 'sensitive'], climate_match: ['all'] },
+                { name: '마일드 미네랄 선 에센스', score: 9.2, description: '산호초 보호 성분(옥시벤존 Free), 바이오 플라스틱 튜브', skin_type_match: ['oily', 'combo'], climate_match: ['humid', 'hot'] },
+                { name: '비건 플라워 립스틱 (리필형)', score: 9.7, description: '비건, 스테인리스 케이스 + 리필 가능', skin_type_match: ['all'], climate_match: ['all'] },
+                { name: '돌콩 코어 인텐시브 크림', score: 9.0, description: '90% 천연 성분, 재활용 유리 용기', skin_type_match: ['dry', 'sensitive'], climate_match: ['dry', 'cold'] },
+                { name: '민트 리프레싱 샴푸바', score: 9.6, description: '고체 샴푸바로 플라스틱 용기 Zero', skin_type_match: ['oily'], climate_match: ['hot', 'humid'] },
+                { name: '씨 솔트 바디 스크럽 (대용량)', score: 9.4, description: '천연 소금 스크럽, 알루미늄 캔 포장', skin_type_match: ['all'], climate_match: ['all'] }
+            ];
+            // 👆👆👆 제품 데이터 끝 👆👆👆
+
+            // ③ 필터링 로직: 피부타입과 기후가 모두 일치하거나 'all'에 해당하면 선택
+            const filteredProducts = allProducts.filter(product => {
+                const skinMatch = product.skin_type_match.includes(selectedSkinType) || product.skin_type_match.includes('all');
+                // 변경: selectedClimate 변수 사용
+                const climateMatch = product.climate_match.includes(selectedClimate) || product.climate_match.includes('all');
+                return skinMatch && climateMatch;
+            });
+
+            // ④ 상위 3개 제품만 선택
+            const finalRecommendations = filteredProducts.slice(0, 3);
+
+            // ⑤ 결과 출력
+            if (finalRecommendations.length > 0) {
+                finalRecommendations.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <h4>${product.name}</h4>
+                        <p>${product.description}</p>
+                        <div class="environment-score">환경 점수: ${product.score}점</div>
+                    `;
+                    resultDiv.appendChild(card);
+                });
+                resultDiv.style.display = 'flex';
+            } else {
+                resultDiv.innerHTML = '<p style="text-align: center; width: 100%;">죄송합니다. 조건에 맞는 친환경 제품을 찾지 못했습니다.</p>';
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        function completeChallenge() {
+            const messageDiv = document.getElementById('challenge-message');
+            const messages = [
+                '🎉 대단해요! 지구를 위한 실천, 멋져요! (+100 포인트)',
+                '💖 오늘 하루도 그린 라이프 실천 완료! (+100 포인트)',
+                '👍 환경 지킴이! 작은 행동이 큰 변화를 만들어요. (+100 포인트)'
+            ];
+            
+            // AI 칭찬 메시지 랜덤 선택 및 표시
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            messageDiv.textContent = randomMessage;
+
+            // 추가적인 인터랙션 (예: 버튼 비활성화, 포인트 누적 등)은 생략
+        }
+    </script>
+</body>
+</html>
