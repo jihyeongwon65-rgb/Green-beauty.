@@ -218,6 +218,7 @@
                 <option value="hot">더움</option>
                 <option value="cold">추움</option>
             </select>
+
             <label for="color">선호 색상:</label>
             <input type="text" id="color" placeholder="예: 핑크 계열, 뉴트럴">
 
@@ -273,42 +274,53 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // 이전 getClimateType 함수는 이제 필요 없습니다.
-
         function getRecommendation() {
             // ① 사용자 입력 값 가져오기
-            const selectedSkinType = document.getElementById('skin-type').value; // 'dry', 'oily', 'combo', 'sensitive'
-            // 변경: 기후 드롭다운 값 직접 가져오기
-            const selectedClimate = document.getElementById('climate').value; // 'dry', 'humid', 'hot', 'cold', 'all'
+            const selectedSkinType = document.getElementById('skin-type').value; 
+            const selectedClimate = document.getElementById('climate').value; 
             
             // ② 추천 리스트 생성 및 표시 영역 초기화
             const resultDiv = document.getElementById('recommendation-result');
             resultDiv.innerHTML = ''; 
 
-            // 👇👇👇 제품 데이터 (이전과 동일) 👇👇👇
+            // 👇👇👇 제품 데이터: 기후별/피부 타입별 매칭을 더 엄격하게 조정 👇👇👇
             const allProducts = [
-                // skin_type_match와 climate_match 값은 이전 코드와 동일
-                { name: '천연 세럼', score: 9.5, description: '대나무 추출물 기반, 재활용 유리 용기', skin_type_match: ['all', 'sensitive'], climate_match: ['all', 'humid'] },
-                { name: '친환경 립밤', score: 8.8, description: '무독성 미네랄 색소, 생분해성 종이 포장', skin_type_match: ['all'], climate_match: ['all'] },
-                { name: '비건 파운데이션', score: 9.2, description: '동물 실험 반대, 사탕수수 플라스틱 용기', skin_type_match: ['oily', 'combo'], climate_match: ['all', 'hot'] },
-                { name: '오트밀 젠틀 클렌징 바', score: 9.8, description: '미세 플라스틱 X, 종이 포장 제로 웨이스트', skin_type_match: ['dry', 'sensitive'], climate_match: ['all'] },
-                { name: '마일드 미네랄 선 에센스', score: 9.2, description: '산호초 보호 성분(옥시벤존 Free), 바이오 플라스틱 튜브', skin_type_match: ['oily', 'combo'], climate_match: ['humid', 'hot'] },
+                // 1. 건조(dry) / 추움(cold) 특화 (보습/영양)
+                { name: '돌콩 코어 인텐시브 크림', score: 9.0, description: '90% 천연 성분, 재활용 유리 용기 (강력 보습)', skin_type_match: ['dry', 'sensitive'], climate_match: ['dry', 'cold'] },
+                { name: '오트밀 젠틀 클렌징 바', score: 9.8, description: '미세 플라스틱 X, 종이 포장 제로 웨이스트 (순한 세정)', skin_type_match: ['dry', 'sensitive', 'all'], climate_match: ['all'] },
+                { name: '천연 아보카도 오일', score: 9.3, description: '건조한 피부 및 극한 추위 보호용 오일', skin_type_match: ['dry', 'sensitive'], climate_match: ['cold', 'dry'] },
+                
+                // 2. 습함(humid) / 더움(hot) 특화 (산뜻/유분조절)
+                { name: '비건 워터 파운데이션', score: 9.2, description: '동물 실험 반대, 사탕수수 플라스틱 용기 (산뜻한 마무리)', skin_type_match: ['oily', 'combo'], climate_match: ['humid', 'hot'] },
+                { name: '마일드 미네랄 선 에센스', score: 9.2, description: '산호초 보호 성분(옥시벤존 Free), 바이오 플라스틱 튜브 (가볍고 묽은 제형)', skin_type_match: ['oily', 'combo', 'all'], climate_match: ['humid', 'hot'] },
+                { name: '민트 리프레싱 샴푸바', score: 9.6, description: '고체 샴푸바로 플라스틱 용기 Zero (두피 유분 조절)', skin_type_match: ['oily', 'all'], climate_match: ['hot', 'humid'] },
+                
+                // 3. 민감성/복합성 (중립 또는 범용)
+                { name: '알로에 진정 토너', score: 9.1, description: '민감성 피부를 위한 약산성 토너, 재활용 용기', skin_type_match: ['sensitive', 'combo'], climate_match: ['all'] },
                 { name: '비건 플라워 립스틱 (리필형)', score: 9.7, description: '비건, 스테인리스 케이스 + 리필 가능', skin_type_match: ['all'], climate_match: ['all'] },
-                { name: '돌콩 코어 인텐시브 크림', score: 9.0, description: '90% 천연 성분, 재활용 유리 용기', skin_type_match: ['dry', 'sensitive'], climate_match: ['dry', 'cold'] },
-                { name: '민트 리프레싱 샴푸바', score: 9.6, description: '고체 샴푸바로 플라스틱 용기 Zero', skin_type_match: ['oily'], climate_match: ['hot', 'humid'] },
                 { name: '씨 솔트 바디 스크럽 (대용량)', score: 9.4, description: '천연 소금 스크럽, 알루미늄 캔 포장', skin_type_match: ['all'], climate_match: ['all'] }
             ];
             // 👆👆👆 제품 데이터 끝 👆👆👆
 
             // ③ 필터링 로직: 피부타입과 기후가 모두 일치하거나 'all'에 해당하면 선택
             const filteredProducts = allProducts.filter(product => {
+                // 피부 타입 일치 여부 확인
                 const skinMatch = product.skin_type_match.includes(selectedSkinType) || product.skin_type_match.includes('all');
-                // 변경: selectedClimate 변수 사용
-                const climateMatch = product.climate_match.includes(selectedClimate) || product.climate_match.includes('all');
+                
+                // 기후 일치 여부 확인 (selectedClimate가 'all'이 아니면, 해당 기후 조건에 맞는 제품만 필터링)
+                let climateMatch = false;
+                if (selectedClimate === 'all') {
+                    climateMatch = true; // 기후를 '상관 없음'으로 선택하면 모든 제품 통과
+                } else {
+                    // 선택된 기후가 제품의 climate_match 배열에 포함되어 있는지 확인
+                    climateMatch = product.climate_match.includes(selectedClimate);
+                }
+                
+                // 최종적으로 두 조건(피부 타입 AND 기후)이 모두 만족되어야 함
                 return skinMatch && climateMatch;
             });
 
-            // ④ 상위 3개 제품만 선택
+            // ④ 상위 3개 제품만 선택 (가장 환경 점수가 높은 순으로 정렬 후 3개 선택할 수도 있지만, 여기서는 순서대로 3개 선택)
             const finalRecommendations = filteredProducts.slice(0, 3);
 
             // ⑤ 결과 출력
@@ -325,7 +337,7 @@
                 });
                 resultDiv.style.display = 'flex';
             } else {
-                resultDiv.innerHTML = '<p style="text-align: center; width: 100%;">죄송합니다. 조건에 맞는 친환경 제품을 찾지 못했습니다.</p>';
+                resultDiv.innerHTML = '<p style="text-align: center; width: 100%;">선택하신 **피부 타입**과 **기후 조건**을 모두 만족하는 제품을 찾지 못했습니다. 조건을 완화해 보세요.</p>';
                 resultDiv.style.display = 'block';
             }
         }
